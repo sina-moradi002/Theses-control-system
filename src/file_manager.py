@@ -1,3 +1,7 @@
+'''
+This class can load / save data from files
+'''
+
 import json
 
 class FileManager:
@@ -5,13 +9,13 @@ class FileManager:
         pass
     def load_file(self, file_path):
         try:
-            json_data = json.load(open(file_path, 'r'))
+            json_data = json.load(open(file_path, 'r' , encoding='utf-8'))
             return json_data
         except FileNotFoundError as e:
             print(e)
             return None
-        except:
-            print("Error loading data")
+        except Exception as e:
+            print(e)
             return None
     def save_file(self, file_path , json_data):
         try:
