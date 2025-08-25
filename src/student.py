@@ -7,12 +7,12 @@ import shutil
 import os
 
 class Student(User):
-    def __init__(self, user_id , name , major ,  password):
+    def __init__(self, user_id , name , major ,  password , thesis_request =None):
         super().__init__(user_id , name , "student" ,major , password)
-        self.thesis_request = None
+        self.thesis_request = thesis_request
 
     def thesis_id_create (self, course_id , supervisor_id):
-        return f"{self.user_id[-3:]}{course_id[-3:]}-{supervisor_id[-3:]}"
+        return f"{self.user_id[-3:]}{course_id[-3:]}{supervisor_id[-3:]}"
 
     @staticmethod
     def keyword_getter():
@@ -36,7 +36,7 @@ class Student(User):
         print(f"Thesis request date : {thesis['request_date']}")
 
 
-    def is_new_thesis(self , new_id , theses ):
+    def is_new_thesis(self , new_id , theses , course , supervisor , users):
         for thesis in theses:
             if thesis['thesis_id'] == new_id and thesis['status'] != 'rejected':
                 print("This thesis has been created before")
@@ -48,19 +48,41 @@ class Student(User):
                     theses.remove(thesis)
                     self.thesis_request = None
                     # increasing capacity of prof and course
+                    course.capacity += 1
+                    for user in users:
+                        if user['id'] == supervisor:
+                            user['supervision_capacity'] += 1
+
                 else:
                     print("You can not create a new thesis")
                 return False
-            else:
-                return True
 
-    def request_thesis(self , course, supervisor_id , theses):
+        return True
+
+    def print_courses(self ,courses):
+        for course in courses:
+            if course['major'] == self.major:
+                print("\n___________________________")
+                print(course['title'])
+                print(f"ID : {course['id']}")
+                print(f"professor : {course['professor']}")
+                print (f"year : {course['year']}")
+                print(f"semester : {course['semester']}")
+                print(f"capacity : {course['capacity']}")
+                print(f"Resources:\n\t {course['resources'][0]} \n\t {course['resources'][1]}")
+                print(f"units: {course['units']}")
+
+
+
+    def request_thesis(self , courses , course, supervisor_id , theses , users):
+        self.print_courses(courses)
         new_id = self.thesis_id_create (course.course_id, supervisor_id)
-        continue_prog = self.is_new_thesis(new_id , theses)
+        continue_prog = self.is_new_thesis(new_id , theses , course , supervisor_id, users)
         if continue_prog:
-            new_thesis = Thesis(new_id , self.user_id , course.course_id , supervisor_id , course.year , course.semester)
+            new_thesis = Thesis(new_id , self.user_id , course.course_id , supervisor_id , course.major , course.year , course.semester)
             new_thesis.keywords = self.keyword_getter()
             new_thesis.request_date = date.today()
+            self.thesis_request = new_id
             new_thesis.major = self.major
             theses.append(new_thesis.to_dict())
 
@@ -68,7 +90,7 @@ class Student(User):
     def view_status (self , theses):
         found = False
         for thesis in theses:
-            if thesis["thesis_id"] == self.thesis_request and thesis["student_id"] == self.user_id:
+            if thesis["student_id"] == self.user_id:
                 found = True
                 self.print_basic_thesis_info (thesis)
                 print ("_________________________________________________")
@@ -89,9 +111,10 @@ class Student(User):
                         print (f"File : {thesis['files']}")
                     print (f"Defence date : {thesis['defence_date']}")
                     print (f"Reviewers : {thesis['reviewers'][0]} , {thesis['reviewers'][1]}")
-                    print ("Evaluation Information")
-                    print("----------------------")
-                    if not thesis["defence_result"]:
+
+                    if thesis["defence_result"]:
+                        print ("Evaluation Information")
+                        print("----------------------")
                         print (f"Evaluations : \n"
                                f"Supervisor grade : {thesis['evaluations']['supervisor']}\tInternal viewer : {thesis['evaluations']['internal_viewer']}\tExternal viewer : {thesis['evaluations']['external_viewer']}\n"
                                f"Final grade: {thesis['evaluations']['final_grade']}")
@@ -100,17 +123,22 @@ class Student(User):
         if not found:
             print ("There is no thesis for you")
 
-
     @staticmethod
-    def check_time (request_date):
+    def check_time(request_date):
         date_format = "%Y-%m-%d"
-        try:
+        if isinstance(request_date, str):
             input_date = datetime.strptime(request_date, date_format)
-            three_months_later = input_date + timedelta(days=90)
-            return datetime.now() >= three_months_later
-        except ValueError:
-            print("Invalid date format.")
+        elif isinstance(request_date, date):
+            input_date = datetime.combine(request_date, datetime.min.time())
+        elif isinstance(request_date, datetime):
+            input_date = request_date
+        else:
+            print("Invalid date type.")
             return False
+        return True
+
+        three_months_later = input_date + timedelta(days=90)
+        return datetime.now() >= three_months_later
 
     def defence_request (self , theses):
         found = False
@@ -122,14 +150,14 @@ class Student(User):
                 elif not thesis["status"] == "approved":
                     print ("Your request has not been approved by supervisor")
                 elif thesis["status"] == "approved" and thesis["defence_requested"] == False:
-                    if not thesis["files"] and not thesis["keywords"]:
-                        if not self.check_time(thesis["request_date"]):
-                            print(f"You can request for defence in 3 month after {thesis['request_date']}")
-                        else:
-                            self.print_basic_thesis_info (thesis)
-                            if yesno("Do you want to request for defence? "):
-                                thesis["defence_requested"] = True
-                                break
+                    if not self.check_time(thesis["request_date"]):
+                        print(f"You can request for defence in 3 month after {thesis['request_date']}")
+                    else:
+                        self.print_basic_thesis_info (thesis)
+                        if yesno("Do you want to request for defence? "):
+                            thesis["defence_requested"] = True
+                            print("Defence requested")
+                            break
 
         if not found :
             print ("There is no thesis for you")
@@ -139,9 +167,9 @@ class Student(User):
         for thesis in theses:
             if thesis["student_id"] == self.user_id:
                 found = True
-                pdf_path = input ("Enter the path of the PDF file: ")
-                first_image = input ("Enter the name of the first image: ")
-                second_image = input ("Enter the name of the second image: ")
+                pdf_path = input ("Enter the path of the PDF file: ").strip('"')
+                first_image = input ("Enter the name of the first image: ").strip('"')
+                second_image = input ("Enter the name of the second image: ").strip('"')
                 pdf_des = "../files/PDfs"
                 images_des = "../files/Images"
                 pdf_name = f"{thesis['thesis_id']}_{os.path.basename(pdf_path)}"
@@ -159,7 +187,7 @@ class Student(User):
                     thesis["files"]["first_image"] = first_image_destination_path
                     thesis["files"]["second_image"] = second_image_destination_path
                     print ("files has been uploaded successfully")
-                    print(f"New path is : {pdf_destination_path} and {first_image_destination_path} and {second_image_destination_path}")
+                    print(f"New paths is : \n\t{pdf_destination_path} and \n\t{first_image_destination_path} and \n\t{second_image_destination_path}")
                     return True
                 except SameFileError as e:
                     print("Source and destination represents the same file.")

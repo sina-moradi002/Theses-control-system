@@ -24,7 +24,7 @@ class Thesis:
 
     def update_status (self, new_status):
         pass
-    def calculate_final_grade(self):
+    def caculate_final_grade(self):
         pass
     def session_file_creat (self):
         pass

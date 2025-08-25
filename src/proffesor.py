@@ -19,7 +19,7 @@ class Proffesor(User):
 
                 if for_defence and thesis["defence_requested"] == True:
                     print("____________________________")
-                    print (f"Status: {thesis['status']}\nRequest date : {thesis['requested_date']}\nYear : {thesis['year']}\tSemester : {thesis['semester']}")
+                    print (f"Status: {thesis['status']}\nRequest date : {thesis['request_date']}\nYear : {thesis['year']}\tSemester : {thesis['semester']}")
                     print (f"Files: \n\t{thesis['files']['pdf']}\n\t{thesis['files']['first_image']}\n\t{thesis['files']['second_image']}\n")
                     print (f"Keywords: \n\t{thesis['keywords']}\n")
                 print("____________________________")
@@ -35,23 +35,35 @@ class Proffesor(User):
                     action = yesno("Do you want to approve this thesis request?")
                     if action:
                         thsis['status'] = "approved"
+                        print("Thesis Request Approved successfully")
                     else:
                         thsis['status'] = "rejected"
+
     @staticmethod
-    def check_time(request_date , defence_date):
+    def check_time(request_date, defence_date):
         date_format = "%Y-%m-%d"
-        try:
+
+        if isinstance(request_date, str):
             date1 = datetime.strptime(request_date, date_format)
+        elif isinstance(request_date, date):
+            date1 = datetime.combine(request_date, datetime.min.time())
+        else:
+            raise TypeError("request_date must be str or date")
+
+        if isinstance(defence_date, str):
             date2 = datetime.strptime(defence_date, date_format)
-            difference = abs((date2 - date1).days)
-            return difference > 90
-        except ValueError as e:
-            print(f"invalid date: {request_date}.\n{e}")
-            return False
+        elif isinstance(defence_date, date):
+            date2 = datetime.combine(defence_date, datetime.min.time())
+        else:
+            raise TypeError("defence_date must be str or date")
+
+        difference = abs((date2 - date1).days)
+        return difference > 90
+
     @staticmethod
     def prof_exist(prof , users):
         for user in users:
-            if user['id'] == prof and user['role'] == 'proffesor':
+            if user['id'] == prof and user['role'] == 'professor':
                 return True
         return False
 
@@ -59,14 +71,14 @@ class Proffesor(User):
     def check_capacity(prof , users):
         for user in users:
             if user['id'] == prof:
-                return user['reviewer_cap'] > 0
+                return user['review_capacity'] > 0
         return False
 
     @staticmethod
     def decrease_cpacity(prof, users):
         for user in users:
             if user['id'] == prof:
-                user['reviewer_cap'] -= 1
+                user['review_capacity'] -= 1
 
     def check_major(self ,type , id , users):
         for user in users:
@@ -88,12 +100,12 @@ class Proffesor(User):
     def add_reviewer(self ,viewer_type, users, thesis):
         viewer_id = input(f"{viewer_type} viewer id: ")
 
-        if not self.check_major(viewer_type , viewer_id, users):
-            print ("reviewer should not be " , viewer_type)
-            return False
-
         if not self.prof_exist(viewer_id, users):
             print(f"{viewer_type} viewer id not found.")
+            return False
+
+        if not self.check_major(viewer_type , viewer_id, users):
+            print ("reviewer should not be " , viewer_type)
             return False
 
         if not self.check_capacity(viewer_id, users):
@@ -107,8 +119,10 @@ class Proffesor(User):
     def determine_defence_date_and_viewers(self , theses , users):
         self.list_thesis(theses , for_defence = True)
         thesis_search = input("Enter thesis ID: ")
+        found = False
         for thesis in theses:
-            if thesis["thesis_id"] == thesis_search:
+            if thesis["thesis_id"] == thesis_search and thesis['defence_requested'] == True:
+                found = True
                 defence_date = input("Enter date of defence: ")
                 if not self.check_time(thesis['request_date'] , defence_date):
                     print("The defense must be held three months after the request.")
@@ -120,8 +134,21 @@ class Proffesor(User):
 
                 self.add_reviewer("Internal", users, thesis)
                 self.add_reviewer("External", users, thesis)
+                print ("Viewers choose")
+
+        if not found:
+            print("Thesis not found OR not requested for defence.")
 
 
+    def update_final_grade(self ,thesis):
+        try:
+            if not thesis["evaluation"]["supervisor"] and not thesis["evaluation"]["internal_viewer"] and not thesis["evaluation"]["external_viewer"]:
+                avg = (thesis["evaluation"]["supervisor"] + thesis["evaluation"]["internal_viewer"] + thesis["evaluation"]["external_viewer"] )/ 3
+                thesis['defence_result'] = avg
+            else:
+                pass
+        except Exception as e:
+            print (f"Error {e} raised while updating final grade.")
 
 
     def determine_grade(self ,theses):
@@ -149,6 +176,7 @@ class Proffesor(User):
                 print("Defence date has not been set.")
                 return
             try:
+                pass
                 defence_date = datetime.strptime(defence_date_str, "%Y-%m-%d").date()
                 today = date.today()
                 if today < defence_date:
@@ -173,5 +201,6 @@ class Proffesor(User):
                 thesis["evaluation"]["external_viewer"] = grade_value
 
             print(f"Grade {grade_value} recorded for role: {role}")
+            self.update_final_grade(thesis)
             return
 
