@@ -3,6 +3,7 @@ from prompter import yesno
 from datetime import datetime
 from datetime import timedelta
 from datetime import date
+
 class Proffesor(User):
     def __init__(self, user_id , name ,major, password , courses , supervisor_cap , reviewer_cap):
         super().__init__(user_id , name , "proffesor" , major ,  password)
@@ -204,3 +205,20 @@ class Proffesor(User):
             self.update_final_grade(thesis)
             return
 
+
+    def change_password(self , users):
+        for user in users:
+            if user['id'] == self.user_id:
+                old = input("Enter the current password: ").strip()
+                if old == user['password']:
+                    new = input("Enter the new password: ").strip()
+                    if len(new) > 6:
+                        user['password'] = new
+                        print(f"password changed successfully")
+                        return
+                    else:
+                        print("Password is too short. At least 6 characters.")
+                        return
+                else:
+                    print("Wrong password.")
+                    return

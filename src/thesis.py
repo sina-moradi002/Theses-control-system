@@ -1,9 +1,11 @@
 class Thesis:
-    def __init__(self, thesis_id , student_id , course_id , supervisor_id, major , year , semester ):
+    def __init__(self, thesis_id , student_id , course_id , supervisor_id, topic , title , major , year , semester ):
         self.thesis_id = thesis_id
         self.student_id = student_id
         self.course_id = course_id
         self.supervisor_id = supervisor_id
+        self.topic = topic
+        self.title = title
         self.major = major
         self.year = year
         self.semester = semester
@@ -35,6 +37,8 @@ class Thesis:
             "student_id" : self.student_id,
             "course_id" : self.course_id,
             "supervisor_id" : self.supervisor_id,
+            "topic" : self.topic,
+            "title" : self.title,
             "major" : self.major,
             "year" : self.year,
             "semester" : self.semester,

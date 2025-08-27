@@ -5,6 +5,7 @@ import student
 import proffesor
 import thesis
 import course
+import searcher
 
 def print_courses(courses):
     for course in courses:
@@ -59,6 +60,18 @@ def check_if_request_accepted(thesis_id , theses_list):
             return True
     return False
 
+def print_courses(courses):
+    for course in courses:
+        print("\n___________________________")
+        print(course['title'])
+        print(f"ID : {course['id']}")
+        print(f"Title: {course['title']}")
+        print(f"professor : {course['professor_id']}")
+        print (f"year : {course['year']}")
+        print(f"semester : {course['semester']}")
+        print(f"capacity : {course['capacity']}")
+        print(f"Resources:\n\t {course['resources'][0]} \n\t {course['resources'][1]}")
+        print(f"units: {course['units']}")
 
 
 def student_panel(users , user , courses , theses):
@@ -66,8 +79,9 @@ def student_panel(users , user , courses , theses):
 
     while True:
         print(f"\nStudent Panel\n Welcome dear {user['name']}")
-        action = input("1 = Request for thesis course\n2 = View thesis course status\n3 = Request for defence\n4 = Search theses\n5 = log out\nChoose an action: ")
+        action = input("1 = Request for thesis course\n2 = View thesis course status\n3 = Request for defence\n4 = Search theses\n5 = Change Password\n6 = log out\nChoose an action: ")
         if action == "1":
+            print_courses(courses)
             course_in = input("Enter course id : ")
             supervisor_in = input("Enter supervisor id : ")
 
@@ -110,8 +124,10 @@ def student_panel(users , user , courses , theses):
             else:
                 print ("Your request should approve by supervision first")
         elif action == "4":
-            pass
+            searcher.search(theses)
         elif action == "5":
+            stu.change_password(users)
+        elif action == "6":
             user ['thesis_request'] = stu.thesis_request
             break
         else:
@@ -124,7 +140,7 @@ def proffesor_panel(users , user , courses ,theses):
     action = ''
     while True:
         print(f"\nProfesor Panel\n Welcome dear {user['name']}")
-        action = input ("1 = View theses requests\n2 = View defence requests\n3 = Search theses\n4 = Grade recording\n5 = log out\nChoose an action: ")
+        action = input ("1 = View theses requests\n2 = View defence requests\n3 = Search theses\n4 = Grade recording\n5 = Change Password\n6 = log out\nChoose an action: ")
         if action == "1":
             prof.see_thesis_request(theses)
         elif action == "2":
@@ -134,6 +150,8 @@ def proffesor_panel(users , user , courses ,theses):
         elif action == "4":
             prof.determine_grade(theses)
         elif action == "5":
+            prof.change_password(users)
+        elif action == "6":
             break
         else:
             print("Invalid input")

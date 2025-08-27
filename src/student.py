@@ -27,6 +27,9 @@ class Student(User):
     def print_basic_thesis_info (thesis):
         print("Thesis Information")
         print("----------------------")
+        print(thesis['title'])
+        print(f"Topic: {thesis['topic']}")
+        print (f"Major: {thesis['major']}")
         print(f"Thesis ID : {thesis['thesis_id']}")
         print(f"Thesis course ID : {thesis['course_id']}")
         print(f"Thesis supervisor ID : {thesis['supervisor_id']}")
@@ -59,27 +62,16 @@ class Student(User):
 
         return True
 
-    def print_courses(self ,courses):
-        for course in courses:
-            if course['major'] == self.major:
-                print("\n___________________________")
-                print(course['title'])
-                print(f"ID : {course['id']}")
-                print(f"professor : {course['professor']}")
-                print (f"year : {course['year']}")
-                print(f"semester : {course['semester']}")
-                print(f"capacity : {course['capacity']}")
-                print(f"Resources:\n\t {course['resources'][0]} \n\t {course['resources'][1]}")
-                print(f"units: {course['units']}")
+
 
 
 
     def request_thesis(self , courses , course, supervisor_id , theses , users):
-        self.print_courses(courses)
         new_id = self.thesis_id_create (course.course_id, supervisor_id)
         continue_prog = self.is_new_thesis(new_id , theses , course , supervisor_id, users)
         if continue_prog:
-            new_thesis = Thesis(new_id , self.user_id , course.course_id , supervisor_id , course.major , course.year , course.semester)
+            title = input("Enter the title of the thesis:")
+            new_thesis = Thesis(new_id , self.user_id , course.course_id , supervisor_id , course.topic ,title , course.major , course.year , course.semester)
             new_thesis.keywords = self.keyword_getter()
             new_thesis.request_date = date.today()
             self.thesis_request = new_id
@@ -135,7 +127,6 @@ class Student(User):
         else:
             print("Invalid date type.")
             return False
-        return True
 
         three_months_later = input_date + timedelta(days=90)
         return datetime.now() >= three_months_later
@@ -205,3 +196,20 @@ class Student(User):
                     print(e)
                     return False
 
+
+    def change_password(self , users):
+        for user in users:
+            if user['id'] == self.user_id:
+                old = input("Enter the current password: ").strip()
+                if old == user['password']:
+                    new = input("Enter the new password: ").strip()
+                    if len(new) > 6:
+                        user['password'] = new
+                        print(f"password changed successfully")
+                        return
+                    else:
+                        print("Password is too short. At least 6 characters.")
+                        return
+                else:
+                    print("Wrong password.")
+                    return
