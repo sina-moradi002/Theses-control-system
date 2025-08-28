@@ -1,174 +1,188 @@
 {
-  "users": [
-    {
-      "id": "1000000001",
-      "name": "Alice Johnson",
-      "role": "student",
-      "major": "Computer Engineering",
-      "password": "alice123",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000002",
-      "name": "Bob Smith",
-      "role": "student",
-      "major": "Mechanical Engineering",
-      "password": "bob456",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000003",
-      "name": "Carol Davis",
-      "role": "student",
-      "major": "Electrical Engineering",
-      "password": "carol789",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000004",
-      "name": "David Wilson",
-      "role": "student",
-      "major": "Computer Engineering",
-      "password": "david321",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000005",
-      "name": "Eva Brown",
-      "role": "student",
-      "major": "Mechanical Engineering",
-      "password": "eva654",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000006",
-      "name": "Frank Miller",
-      "role": "student",
-      "major": "Electrical Engineering",
-      "password": "frank987",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000007",
-      "name": "Grace Taylor",
-      "role": "student",
-      "major": "Computer Engineering",
-      "password": "grace111",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000008",
-      "name": "Henry Anderson",
-      "role": "student",
-      "major": "Mechanical Engineering",
-      "password": "henry222",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000009",
-      "name": "Ivy Thomas",
-      "role": "student",
-      "major": "Electrical Engineering",
-      "password": "ivy333",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000010",
-      "name": "Jack Moore",
-      "role": "student",
-      "major": "Computer Engineering",
-      "password": "jack444",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000011",
-      "name": "Karen Martin",
-      "role": "student",
-      "major": "Mechanical Engineering",
-      "password": "karen555",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000012",
-      "name": "Leo White",
-      "role": "student",
-      "major": "Electrical Engineering",
-      "password": "leo666",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000013",
-      "name": "Mia Harris",
-      "role": "student",
-      "major": "Computer Engineering",
-      "password": "mia777",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000014",
-      "name": "Noah Clark",
-      "role": "student",
-      "major": "Mechanical Engineering",
-      "password": "noah888",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000015",
-      "name": "Olivia Lewis",
-      "role": "student",
-      "major": "Electrical Engineering",
-      "password": "olivia999",
-      "thesis_request": null
-    },
-    {
-      "id": "1000000016",
-      "name": "Dr. Emily Carter",
-      "role": "professor",
-      "major": "Computer Engineering",
-      "password": "emily123",
-      "courses": ["10001" , "10002"],
-      "supervision_capacity": 5,
-      "review_capacity": 10
-    },
-    {
-      "id": "1000000017",
-      "name": "Dr. Mark Thompson",
-      "role": "professor",
-      "major": "Computer Engineering",
-      "password": "mark456",
-      "courses": ["10003" , "10004"],
-      "supervision_capacity": 5,
-      "review_capacity": 10
-    },
-    {
-      "id": "1000000018",
-      "name": "Dr. Sarah Evans",
-      "role": "professor",
-      "major": "Electrical Engineering",
-      "password": "sarah789",
-      "courses": ["10009" , "10010"],
-      "supervision_capacity": 5,
-      "review_capacity": 10
-    },
-    {
-      "id": "1000000019",
-      "name": "Dr. James Walker",
-      "role": "professor",
-      "major": "Mechanical Engineering",
-      "password": "james321",
-      "courses": ["10005" , "10006"],
-      "supervision_capacity": 5,
-      "review_capacity": 10
-    },
-    {
-      "id": "1000000020",
-      "name": "Dr. Linda Scott",
-      "role": "professor",
-      "major": "Mechanical Engineering",
-      "password": "linda654",
-      "courses": ["10007" , "10008"],
-      "supervision_capacity": 5,
-      "review_capacity": 10
-    }
-  ]
+    "users": [
+        {
+            "id": "1000000001",
+            "name": "Alice Johnson",
+            "role": "student",
+            "major": "Computer Engineering",
+            "password": "alice123",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000002",
+            "name": "Bob Smith",
+            "role": "student",
+            "major": "Mechanical Engineering",
+            "password": "bob456",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000003",
+            "name": "Carol Davis",
+            "role": "student",
+            "password": "carol789",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000004",
+            "name": "David Wilson",
+            "role": "student",
+            "major": "Computer Engineering",
+            "password": "david321",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000005",
+            "name": "Eva Brown",
+            "role": "student",
+            "major": "Mechanical Engineering",
+            "password": "eva654",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000006",
+            "name": "Frank Miller",
+            "role": "student",
+            "major": "Electrical Engineering",
+            "password": "frank987",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000007",
+            "name": "Grace Taylor",
+            "role": "student",
+            "major": "Computer Engineering",
+            "password": "grace111",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000008",
+            "name": "Henry Anderson",
+            "role": "student",
+            "major": "Mechanical Engineering",
+            "password": "henry222",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000009",
+            "name": "Ivy Thomas",
+            "role": "student",
+            "major": "Electrical Engineering",
+            "password": "ivy333",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000010",
+            "name": "Jack Moore",
+            "role": "student",
+            "major": "Computer Engineering",
+            "password": "jack444",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000011",
+            "name": "Karen Martin",
+            "role": "student",
+            "major": "Mechanical Engineering",
+            "password": "karen555",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000012",
+            "name": "Leo White",
+            "role": "student",
+            "major": "Electrical Engineering",
+            "password": "leo666",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000013",
+            "name": "Mia Harris",
+            "role": "student",
+            "major": "Computer Engineering",
+            "password": "mia777",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000014",
+            "name": "Noah Clark",
+            "role": "student",
+            "major": "Mechanical Engineering",
+            "password": "noah888",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000015",
+            "name": "Olivia Lewis",
+            "role": "student",
+            "major": "Electrical Engineering",
+            "password": "olivia999",
+            "thesis_request": null
+        },
+        {
+            "id": "1000000016",
+            "name": "Dr. Emily Carter",
+            "role": "professor",
+            "major": "Computer Engineering",
+            "password": "emily123",
+            "courses": [
+                "10001",
+                "10002"
+            ],
+            "supervision_capacity": 5,
+            "review_capacity": 10
+        },
+        {
+            "id": "1000000017",
+            "name": "Dr. Mark Thompson",
+            "role": "professor",
+            "major": "Computer Engineering",
+            "password": "mark456",
+            "courses": [
+                "10003",
+                "10004"
+            ],
+            "supervision_capacity": 5,
+            "review_capacity": 10
+        },
+        {
+            "id": "1000000018",
+            "name": "Dr. Sarah Evans",
+            "role": "professor",
+            "major": "Electrical Engineering",
+            "password": "sarah789",
+            "courses": [
+                "10009",
+                "10010"
+            ],
+            "supervision_capacity": 5,
+            "review_capacity": 10
+        },
+        {
+            "id": "1000000019",
+            "name": "Dr. James Walker",
+            "role": "professor",
+            "major": "Mechanical Engineering",
+            "password": "james321",
+            "courses": [
+                "10005",
+                "10006"
+            ],
+            "supervision_capacity": 5,
+            "review_capacity": 10
+        },
+        {
+            "id": "1000000020",
+            "name": "Dr. Linda Scott",
+            "role": "professor",
+            "major": "Mechanical Engineering",
+            "password": "linda654",
+            "courses": [
+                "10007",
+                "10008"
+            ],
+            "supervision_capacity": 5,
+            "review_capacity": 10
+        }
+    ]
 }

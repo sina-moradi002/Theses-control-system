@@ -22,6 +22,6 @@ class FileManager:
                 else:
                     json.dump(data, f, indent=4, ensure_ascii=False)
         except FileNotFoundError as e:
-            print(f"❌ File not found: {e}")
+            print(f"File not found: {e}")
         except Exception as e:
-            print(f"❌ Error saving data: {e}")
+            print(f"Error saving data: {e}")
