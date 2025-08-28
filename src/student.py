@@ -161,6 +161,8 @@ class Student(User):
                 pdf_path = input ("Enter the path of the PDF file: ").strip('"')
                 first_image = input ("Enter the name of the first image: ").strip('"')
                 second_image = input ("Enter the name of the second image: ").strip('"')
+                if not (pdf_path[-3:] == "pdf") or not (first_image[-3:] in ["jpg" , "jpeg"]) or not (second_image[-4:] in [".jpg", "jpeg"]):
+                    print ("invalid format. just PDF and JPEG or JPG")
                 pdf_des = "../files/PDfs"
                 images_des = "../files/Images"
                 pdf_name = f"{thesis['thesis_id']}_{os.path.basename(pdf_path)}"

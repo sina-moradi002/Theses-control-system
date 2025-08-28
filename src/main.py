@@ -5,7 +5,7 @@ import student
 import proffesor
 import thesis
 import course
-import searcher
+import search_engine
 
 def print_courses(courses):
     for course in courses:
@@ -102,7 +102,7 @@ def student_panel(users , user , courses , theses):
                 continue
 
             if not supervisor_capacity(users , supervisor_in):
-                print ("This supervisor doesn't have enough capacity")
+                print ( "This supervisor doesn't have enough capacity")
                 continue
 
             if not course_capacity (courses , course_in):
@@ -124,7 +124,7 @@ def student_panel(users , user , courses , theses):
             else:
                 print ("Your request should approve by supervision first")
         elif action == "4":
-            searcher.search(theses)
+            search_engine.search(theses)
         elif action == "5":
             stu.change_password(users)
         elif action == "6":
@@ -146,7 +146,7 @@ def proffesor_panel(users , user , courses ,theses):
         elif action == "2":
             prof. determine_defence_date_and_viewers(theses, users)
         elif action == "3":
-            pass
+            search_engine.search(theses)
         elif action == "4":
             prof.determine_grade(theses)
         elif action == "5":
@@ -200,6 +200,9 @@ def main():
 
         elif action == "0":
             print("Goodbye")
+            users_data.save_file("../data/users.json" , users , key = "users")
+            theses_data.save_file("../data/theses.json" , theses , key = "theses")
+            courses_data.save_file("../data/courses.json" , courses , key = "courses")
             exit()
         else:
             print("Invalid input. Try again!")

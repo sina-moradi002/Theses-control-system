@@ -1,6 +1,7 @@
 from thefuzz import fuzz
 
 def search(theses):
+    print ("Search Panel")
     action = input("1 = Search based on users\n2 = Search based on name\nChoose an action: ")
     if action == "1":
         user_based_search(theses)

@@ -95,9 +95,6 @@ class Proffesor(User):
                     else:
                         return False
 
-
-
-
     def add_reviewer(self ,viewer_type, users, thesis):
         viewer_id = input(f"{viewer_type} viewer id: ")
 

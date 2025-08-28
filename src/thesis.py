@@ -24,13 +24,6 @@ class Thesis:
         }
         self.defence_result = None
 
-    def update_status (self, new_status):
-        pass
-    def caculate_final_grade(self):
-        pass
-    def session_file_creat (self):
-        pass
-
     def to_dict(self):
         return {
             "thesis_id" : self.thesis_id,
